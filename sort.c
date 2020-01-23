@@ -4,7 +4,9 @@
 
 void bucket_sort(int arr[], size_t size);
 void bubble_sort(int *arr, size_t size);
-void quick_sort(int a[], int low, int high);
+void quick_sort(int arr[], int low, int high);
+void uniq_sort(int *arr,unsigned size);
+void bubble_uniq(int *arr,unsigned size);
 
 clock_t begin, end;
 double cost;
@@ -12,7 +14,7 @@ double cost;
 int main()
 {
 
-    int arr[10] = {22, 1, 35, 444, 55, 66, 77, 3, 6, 7};
+    int arr[10] = {22, 1, 35, 444, 55, 66, 77, 55, 6, 7};
 
     size_t length = (size_t)(sizeof(arr) / sizeof(int));
 
@@ -30,6 +32,8 @@ int main()
     cost = (double)(end - begin) / CLOCKS_PER_SEC;
 
     printf("\nquick sort-------------end\tuse %lf secs\n", cost);
+    uniq_sort(arr, length);
+    bubble_uniq(arr, length);
     return 0;
 }
 
@@ -42,13 +46,16 @@ void bucket_sort(int arr[], size_t size)
     int bucket[1000] = {0};
     for (size_t i = 0; i < size; i++)
     {
-        bucket[arr[i]] = arr[i];
+        bucket[arr[i]]++;
     }
     for (int i = 0; i < 1000; i++)
     {
         if (bucket[i] != 0)
         {
-            printf("%d\t", bucket[i]);
+            for (int j = 0; j < bucket[i]; j++)
+            {
+                printf("%d\t", bucket[i]);
+            }
         }
     }
     end = clock();
@@ -58,7 +65,7 @@ void bucket_sort(int arr[], size_t size)
 }
 
 //冒泡排序
-void bubble_sort(int *arr, size_t size)
+void bubble_sort(int arr[], size_t size)
 {
     printf("\nbubble sort-------------start\n");
     begin = clock();
@@ -93,11 +100,11 @@ b. 分区过程，将比这个数大的数全放到它的右边，小于或等�
 c. 再对左右区间重复第二步，直到各区间只有一个数。
 */
 
-void quick_sort(int a[], int low, int high)
+void quick_sort(int arr[], int low, int high)
 {
     int i = low;
     int j = high;
-    int temp = a[i];
+    int temp = arr[i];
 
     if (low > high)
     {
@@ -105,19 +112,77 @@ void quick_sort(int a[], int low, int high)
     }
     while (i < j)
     {
-        while ((a[j] >= temp) && (i < j))
+        while ((arr[j] >= temp) && (i < j))
         {
             j--;
         }
-        a[i] = a[j];
-        while ((a[i] <= temp) && (i < j))
+        arr[i] = arr[j];
+        while ((arr[i] <= temp) && (i < j))
         {
             i++;
         }
-        a[j] = a[i];
+        arr[j] = arr[i];
     }
-    a[i] = temp;
-    quick_sort(a, low, i - 1);
-    quick_sort(a, j + 1, high);
+    arr[i] = temp;
+    quick_sort(arr, low, i - 1);
+    quick_sort(arr, j + 1, high);
 }
-//hhh
+
+void uniq_sort(int *arr,unsigned size)
+{
+    printf("uniq sort-------------start\n");
+
+    int uniqs[1000] = {0};
+
+    for (size_t i = 0; i < size; i++)
+    {
+        uniqs[arr[i]] = arr[i];
+    }
+    for (int i = 0; i < 1000; i++)
+    {
+        if (uniqs[i] != 0)
+        {
+                printf("%d\t", uniqs[i]);
+        }
+    }
+
+    printf("\nuniq sort-------------end.\n");
+}
+
+void bubble_uniq(int *arr,unsigned size)
+{
+    printf("\nbubble uniq sort-------------start\n");
+    int prev_num = -1;
+    int temp = 0;
+    for (size_t i = 0; i < size; i++)
+    {
+        for (size_t j = i + 1; j < size; j++)
+        {
+            if (arr[i] > arr[j])
+            {
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+    for (size_t i = 0; i < size; i++)
+    {
+        if (prev_num == -1)
+        {
+            printf("%d\t", arr[i]);
+        }
+        else
+        {
+            if (arr[i] != prev_num)
+            {
+                printf("%d\t", arr[i]);
+            }
+            
+        }
+        prev_num = arr[i];
+        
+    }
+
+    printf("\nbubble uniq sort-------------end.\n");
+}
