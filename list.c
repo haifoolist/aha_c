@@ -1,13 +1,24 @@
 #include<stdio.h>
-int main()
+#include<string.h>
+struct student{
+	int id;
+	char name[10];
+	unsigned age;
+};
+void sprint(struct student *st);
+
+void sprint(struct student *st)
 {
-	int q[102] = {0,6,3,1,7,5,8,9,2,4},head,tail;
-	head = 1;
-	tail = 10;
-	while (head < tail)
-	{
-		printf("%d",q[head]);
-		head++;
-		q[tail++] = q[head++];
-	}
+	printf("id is %p\n",st);
+	printf("name is %p\n",st);
+	printf("age is %p",st);
+}
+int main(){
+	struct student st;
+
+	st.age = 6273485;
+	st.id = 1234432;	
+	strcpy(st.name,"asd");
+
+	sprint(&st);
 }
