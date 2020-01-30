@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+
+void list(int *arr, size_t size);
+ 
+
+struct varbs
+{
+	int ns[100];
+	int start;
+	int last; 
+};
+
+int main()
+{
+	int arr[100] = {2, 3, 5, 6, 7, 8, 4};
+
+	//使用不是struct的方法
+	list(arr, 7);
+
+	//使用struct
+	struct varbs v;
+	v.start = 0;
+	v.last = 7;
+	while (v.start < v.last)
+	{
+		printf("%d", arr[v.start++]);
+		arr[v.last++] = arr[v.start++];
+	}
+}
+void list(int *arr, size_t size)
+{
+	int start = 0;
+	int last = size;
+	while (start < last)
+	{
+		printf("%d", arr[start++]);
+		arr[last++] = arr[start++];
+	}
+	// printf("%p", arr);
+}
+
+ 
