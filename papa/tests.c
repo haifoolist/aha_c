@@ -12,3 +12,8 @@ void main()
     printf("%d", sizeof(arr) / sizeof(arr[0]));
     printf("%d", get_size(arr));
 }
+
+void aaa()
+{
+    printf("%d", 2);
+}
